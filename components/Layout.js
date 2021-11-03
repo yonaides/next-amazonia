@@ -70,7 +70,8 @@ export default function Layout({ title, description, children }) {
   const loginMenuCloseHandler = (e, redirect) => {
     setAnchorEl(null);
     {
-      menu.map((item, index) => {
+      menu.map((item, ) => {
+        
         if (redirect === item.path) {
           router.push(redirect);
         }

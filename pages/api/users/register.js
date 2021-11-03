@@ -6,11 +6,11 @@ import { signToken } from '../../../utils/auth';
 
 
 const handler = nc({
-  onError: (err, req, res, next) => {
+  onError: (err, req, res, ) => {
     console.error(err.stack);
     res.status(500).end("Something broke, on register users");
   },
-  onNoMatch: (req, res, next) => {
+  onNoMatch: (req, res, ) => {
     res.status(404).end("Bad Request");
   },
 })

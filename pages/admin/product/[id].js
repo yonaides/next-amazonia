@@ -95,7 +95,7 @@ function ProductEdit({ params }) {
       };
       fetchData();
     }
-  }, []);
+  }, [setValue, userInfo, productId, router]);
   const uploadHandler = async (e) => {
     const file = e.target.files[0];
     const bodyFormData = new FormData();

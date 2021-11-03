@@ -6,7 +6,7 @@ import { onError } from "../../../utils/error";
 
 const handler = nc({
   onError,
-  onNoMatch: (req, res, next) => {
+  onNoMatch: (req, res, ) => {
     res.status(404).end("Page is not found");
   },
 })

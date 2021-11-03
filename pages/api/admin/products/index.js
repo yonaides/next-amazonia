@@ -2,11 +2,11 @@ import nc from "next-connect";
 import { isAdmin, isAuth } from "../../../../utils/auth";
 import Product from "../../../../models/Product";
 import db from "../../../../utils/db";
-import onError from "../../../../utils/error";
+import {onError} from "../../../../utils/error";
 
 const handler = nc({
   onError,
-  onNoMatch: (req, res, next) => {
+  onNoMatch: (req, res) => {
     res.status(404).end("Page is not found , on register user");
   },
 })

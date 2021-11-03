@@ -51,7 +51,7 @@ function PlaceOrder() {
     if (cartItems.length === 0) {
       router.push('/cart');
     }
-  }, []);
+  }, [paymentMethod, router, cartItems]);
   const { closeSnackbar, enqueueSnackbar } = useSnackbar();
   const [loading, setLoading] = useState(false);
   const placeOrderHandler = async () => {
