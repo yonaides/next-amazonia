@@ -8,6 +8,7 @@ import {
   CardActions,
   Button,
 } from '@material-ui/core';
+import Rating from "@material-ui/lab/Rating";
 import NextLink from 'next/link';
 import Layout from '../components/Layout';
 import db from '../utils/db';
@@ -50,6 +51,7 @@ export default function Home(props) {
                     ></CardMedia>
                     <CardContent>
                       <Typography>{product.name}</Typography>
+                      <Rating value={product.rating} readOnly></Rating>
                     </CardContent>
                   </CardActionArea>
                 </NextLink>
@@ -74,7 +76,7 @@ export default function Home(props) {
 
 export async function getServerSideProps() {
   await db.connect();
-  const products = await Product.find({}).lean();
+  const products = await Product.find({},'-reviews').lean();
   await db.disconnect();
   return {
     props: {
