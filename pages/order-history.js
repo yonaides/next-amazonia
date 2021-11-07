@@ -1,194 +1,142 @@
-import axios from 'axios';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
-import NextLink from 'next/link';
-import React, { useEffect, useContext, useReducer } from 'react';
+import axios from "axios";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
+import NextLink from "next/link";
+import React, { useEffect, useContext, useReducer } from "react";
 import {
   CircularProgress,
   Grid,
   List,
   ListItem,
+  TableContainer,
   Typography,
   Card,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
   Button,
   ListItemText,
-  CardContent,
-  CardActions,
-} from '@material-ui/core';
-import { Bar } from 'react-chartjs-2';
-import { getError } from '../utils/error';
-import { Store } from '../utils/Store';
-import Layout from '../components/Layout';
-import useStyles from '../utils/styles';
+} from "@mui/material";
+import { getError } from "../utils/error";
+import { Store } from "../utils/Store";
+import Layout from "../components/Layout";
+import classes from "../utils/classes";
 
 function reducer(state, action) {
   switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' };
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, summary: action.payload, error: '' };
-    case 'FETCH_FAIL':
+    case "FETCH_REQUEST":
+      return { ...state, loading: true, error: "" };
+    case "FETCH_SUCCESS":
+      return { ...state, loading: false, orders: action.payload, error: "" };
+    case "FETCH_FAIL":
       return { ...state, loading: false, error: action.payload };
     default:
       state;
   }
 }
 
-function AdminDashboard() {
+function OrderHistory() {
   const { state } = useContext(Store);
   const router = useRouter();
-  const classes = useStyles();
   const { userInfo } = state;
 
-  const [{ loading, error, summary }, dispatch] = useReducer(reducer, {
+  const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
     loading: true,
-    summary: { salesData: [] },
-    error: '',
+    orders: [],
+    error: "",
   });
 
   useEffect(() => {
     if (!userInfo) {
-      router.push('/login');
+      router.push("/login");
     }
-    const fetchData = async () => {
+    const fetchOrders = async () => {
       try {
-        dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/admin/summary`, {
+        dispatch({ type: "FETCH_REQUEST" });
+        const { data } = await axios.get(`/api/orders/history`, {
           headers: { authorization: `Bearer ${userInfo.token}` },
         });
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        dispatch({ type: "FETCH_SUCCESS", payload: data });
       } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
+        dispatch({ type: "FETCH_FAIL", payload: getError(err) });
       }
     };
-    fetchData();
+    fetchOrders();
   }, [userInfo, router]);
   return (
-    <Layout title="Admin Dashboard">
+    <Layout title="Order History">
       <Grid container spacing={1}>
         <Grid item md={3} xs={12}>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
-              <NextLink href="/admin/dashboard" passHref>
+              <NextLink href="/profile" passHref>
+                <ListItem button component="a">
+                  <ListItemText primary="User Profile"></ListItemText>
+                </ListItem>
+              </NextLink>
+              <NextLink href="/order-history" passHref>
                 <ListItem selected button component="a">
-                  <ListItemText primary="Admin Dashboard"></ListItemText>
-                </ListItem>
-              </NextLink>
-              <NextLink href="/admin/orders" passHref>
-                <ListItem button component="a">
-                  <ListItemText primary="Orders"></ListItemText>
-                </ListItem>
-              </NextLink>
-              <NextLink href="/admin/products" passHref>
-                <ListItem button component="a">
-                  <ListItemText primary="Products"></ListItemText>
+                  <ListItemText primary="Order History"></ListItemText>
                 </ListItem>
               </NextLink>
             </List>
           </Card>
         </Grid>
         <Grid item md={9} xs={12}>
-          <Card className={classes.section}>
+          <Card sx={classes.section}>
             <List>
+              <ListItem>
+                <Typography component="h1" variant="h1">
+                  Order History
+                </Typography>
+              </ListItem>
               <ListItem>
                 {loading ? (
                   <CircularProgress />
                 ) : error ? (
-                  <Typography className={classes.error}>{error}</Typography>
+                  <Typography sx={classes.error}>{error}</Typography>
                 ) : (
-                  <Grid container spacing={5}>
-                    <Grid item md={3}>
-                      <Card raised>
-                        <CardContent>
-                          <Typography variant="h1">
-                            ${summary.ordersPrice}
-                          </Typography>
-                          <Typography>Sales</Typography>
-                        </CardContent>
-                        <CardActions>
-                          <NextLink href="/admin/orders" passHref>
-                            <Button size="small" color="primary">
-                              View sales
-                            </Button>
-                          </NextLink>
-                        </CardActions>
-                      </Card>
-                    </Grid>
-                    <Grid item md={3}>
-                      <Card raised>
-                        <CardContent>
-                          <Typography variant="h1">
-                            {summary.ordersCount}
-                          </Typography>
-                          <Typography>Orders</Typography>
-                        </CardContent>
-                        <CardActions>
-                          <NextLink href="/admin/orders" passHref>
-                            <Button size="small" color="primary">
-                              View orders
-                            </Button>
-                          </NextLink>
-                        </CardActions>
-                      </Card>
-                    </Grid>
-                    <Grid item md={3}>
-                      <Card raised>
-                        <CardContent>
-                          <Typography variant="h1">
-                            {summary.productsCount}
-                          </Typography>
-                          <Typography>Products</Typography>
-                        </CardContent>
-                        <CardActions>
-                          <NextLink href="/admin/products" passHref>
-                            <Button size="small" color="primary">
-                              View products
-                            </Button>
-                          </NextLink>
-                        </CardActions>
-                      </Card>
-                    </Grid>
-                    <Grid item md={3}>
-                      <Card raised>
-                        <CardContent>
-                          <Typography variant="h1">
-                            {summary.usersCount}
-                          </Typography>
-                          <Typography>Users</Typography>
-                        </CardContent>
-                        <CardActions>
-                          <NextLink href="/admin/users" passHref>
-                            <Button size="small" color="primary">
-                              View users
-                            </Button>
-                          </NextLink>
-                        </CardActions>
-                      </Card>
-                    </Grid>
-                  </Grid>
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>ID</TableCell>
+                          <TableCell>DATE</TableCell>
+                          <TableCell>TOTAL</TableCell>
+                          <TableCell>PAID</TableCell>
+                          <TableCell>DELIVERED</TableCell>
+                          <TableCell>ACTION</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {orders.map((order) => (
+                          <TableRow key={order._id}>
+                            <TableCell>{order._id.substring(20, 24)}</TableCell>
+                            <TableCell>{order.createdAt}</TableCell>
+                            <TableCell>${order.totalPrice}</TableCell>
+                            <TableCell>
+                              {order.isPaid
+                                ? `paid at ${order.paidAt}`
+                                : "not paid"}
+                            </TableCell>
+                            <TableCell>
+                              {order.isDelivered
+                                ? `delivered at ${order.deliveredAt}`
+                                : "not delivered"}
+                            </TableCell>
+                            <TableCell>
+                              <NextLink href={`/order/${order._id}`} passHref>
+                                <Button variant="contained">Details</Button>
+                              </NextLink>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                 )}
-              </ListItem>
-              <ListItem>
-                <Typography component="h1" variant="h1">
-                  Sales Chart
-                </Typography>
-              </ListItem>
-              <ListItem>
-                <Bar
-                  data={{
-                    labels: summary.salesData.map((x) => x._id),
-                    datasets: [
-                      {
-                        label: 'Sales',
-                        backgroundColor: 'rgba(162, 222, 208, 1)',
-                        data: summary.salesData.map((x) => x.totalSales),
-                      },
-                    ],
-                  }}
-                  options={{
-                    legend: { display: true, position: 'right' },
-                  }}
-                ></Bar>
               </ListItem>
             </List>
           </Card>
@@ -198,4 +146,4 @@ function AdminDashboard() {
   );
 }
 
-export default dynamic(() => Promise.resolve(AdminDashboard), { ssr: false });
+export default dynamic(() => Promise.resolve(OrderHistory), { ssr: false });
