@@ -2,7 +2,7 @@ import nc from "next-connect";
 import { isAdmin, isAuth } from "../../../../../utils/auth";
 import Product from "../../../../../models/Product";
 import db from "../../../../../utils/db";
-import {onError} from "../../../../../utils/error";
+import { onError } from "../../../../../utils/error";
 
 const handler = nc({
   onError,
@@ -26,6 +26,8 @@ const handler = nc({
       product.price = req.body.price;
       product.category = req.body.category;
       product.image = req.body.image;
+      product.featuredImage = req.body.featuredImage;
+      product.isFeatured = req.body.isFeatured;
       product.brand = req.body.brand;
       product.countInStock = req.body.countInStock;
       product.description = req.body.description;
