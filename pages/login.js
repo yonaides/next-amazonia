@@ -92,7 +92,7 @@ export default function Login() {
               defaultValue=""
               rules={{
                 required: true,
-                minLength: 6,
+                minLength: 5,
               }}
               render={({ field }) => (
                 <TextField
