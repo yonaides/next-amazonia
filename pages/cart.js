@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 import dynamic from 'next/dynamic';
+import NextLink from 'next/link';
+import axios from 'axios';
 import Layout from '../components/Layout';
 import { Store } from '../utils/Store';
-import NextLink from 'next/link';
-import Image from 'next/image';
 import {
   Grid,
   TableContainer,
@@ -22,8 +24,6 @@ import {
   ListItem,
   Box,
 } from '@mui/material';
-import axios from 'axios';
-import { useRouter } from 'next/router';
 
 function CartScreen() {
   const router = useRouter();
