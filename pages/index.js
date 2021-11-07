@@ -1,17 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
-// eslint-disable-next-line @next/next/no-img-element
+import { useContext } from 'react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import axios from 'axios';
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import { Carousel } from 'react-responsive-carousel';
 import { Grid, Link, Typography } from '@mui/material';
 import Layout from '../components/Layout';
 import db from '../utils/db';
 import Product from '../models/Product';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { useContext } from 'react';
 import { Store } from '../utils/Store';
 import ProductItem from '../components/ProductItem';
-import { Carousel } from 'react-responsive-carousel';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import classes from '../utils/classes';
 
 export default function Home(props) {
