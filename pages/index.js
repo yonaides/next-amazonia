@@ -2,6 +2,7 @@
 import { useContext } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import axios from 'axios';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
@@ -13,7 +14,7 @@ import { Store } from '../utils/Store';
 import ProductItem from '../components/ProductItem';
 import classes from '../utils/classes';
 
-export default function Home(props) {
+function Home(props) {
   const router = useRouter();
   const { state, dispatch } = useContext(Store);
   const { topRatedProducts, featuredProducts } = props;
@@ -81,3 +82,5 @@ export async function getServerSideProps() {
     },
   };
 }
+
+export default dynamic(() => Promise.resolve(Home), { ssr: false });
