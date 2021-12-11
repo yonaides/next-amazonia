@@ -69,8 +69,7 @@ export default function ProductScreen(props) {
       );
       setReviews(data);
     } catch (err) {
-      console.log(getError(err));
-      
+      enqueueSnackbar(getError(err), { variant: "error" });
     }
   },[product._id, enqueueSnackbar]);
 
