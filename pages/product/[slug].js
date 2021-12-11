@@ -57,7 +57,7 @@ export default function ProductScreen(props) {
       fetchReviews();
     } catch (err) {
       setLoading(false);
-      enqueueSnackbar(getError(err), { variant: 'error' });
+      
     }
   };
 
@@ -69,7 +69,8 @@ export default function ProductScreen(props) {
       );
       setReviews(data);
     } catch (err) {
-      enqueueSnackbar(getError(err), { variant: "error" });
+      console.log(getError(err));
+      
     }
   },[product._id, enqueueSnackbar]);
 
