@@ -16,11 +16,11 @@ import {
   FormControlLabel,
   Checkbox,
 } from '@mui/material';
+import { Controller, useForm } from 'react-hook-form';
+import { useSnackbar } from 'notistack';
 import { getError } from '../../../utils/error';
 import { Store } from '../../../utils/Store';
 import Layout from '../../../components/Layout';
-import { Controller, useForm } from 'react-hook-form';
-import { useSnackbar } from 'notistack';
 import Form from '../../../components/Form';
 import classes from '../../../utils/classes';
 
@@ -96,6 +96,7 @@ function ProductEdit({ params }) {
           setValue('description', data.description);
         } catch (err) {
           dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
+          enqueueSnackbar(getError(err), { variant: "error" });
         }
       };
       fetchData();

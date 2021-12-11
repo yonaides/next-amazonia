@@ -13,16 +13,16 @@ import {
   CircularProgress,
   Box,
 } from '@mui/material';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 import Rating from '@mui/material/Rating';
+import { useSnackbar } from 'notistack';
 import Layout from '../../components/Layout';
 import classes from '../../utils/classes';
 import Product from '../../models/Product';
 import db from '../../utils/db';
-import axios from 'axios';
 import { Store } from '../../utils/Store';
 import { getError } from '../../utils/error';
-import { useRouter } from 'next/router';
-import { useSnackbar } from 'notistack';
 import Form from '../../components/Form';
 
 export default function ProductScreen(props) {

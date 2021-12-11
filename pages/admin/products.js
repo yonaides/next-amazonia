@@ -19,11 +19,11 @@ import {
   TableCell,
   TableBody,
 } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import { getError } from '../../utils/error';
 import { Store } from '../../utils/Store';
 import Layout from '../../components/Layout';
 import classes from '../../utils/classes';
-import { useSnackbar } from 'notistack';
 
 function reducer(state, action) {
   switch (action.type) {
@@ -80,6 +80,7 @@ function AdminProdcuts() {
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
+        enqueueSnackbar(getError(err), { variant: "error" });
       }
     };
     if (successDelete) {
@@ -124,6 +125,7 @@ function AdminProdcuts() {
       enqueueSnackbar('Product deleted successfully', { variant: 'success' });
     } catch (err) {
       dispatch({ type: 'DELETE_FAIL' });
+      enqueueSnackbar(getError(err), { variant: "error" });
       
     }
   };
