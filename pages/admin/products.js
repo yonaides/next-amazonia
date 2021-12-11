@@ -108,7 +108,7 @@ function AdminProdcuts() {
       router.push(`/admin/product/${data.product._id}`);
     } catch (err) {
       dispatch({ type: 'CREATE_FAIL' });
-      enqueueSnackbar(getError(err), { variant: 'error' });
+      
     }
   };
   const deleteHandler = async (productId) => {
@@ -124,7 +124,7 @@ function AdminProdcuts() {
       enqueueSnackbar('Product deleted successfully', { variant: 'success' });
     } catch (err) {
       dispatch({ type: 'DELETE_FAIL' });
-      enqueueSnackbar(getError(err), { variant: 'error' });
+      
     }
   };
   return (
