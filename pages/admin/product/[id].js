@@ -118,7 +118,7 @@ function ProductEdit({ params }) {
       enqueueSnackbar('File uploaded successfully', { variant: 'success' });
     } catch (err) {
       dispatch({ type: 'UPLOAD_FAIL', payload: getError(err) });
-      enqueueSnackbar(getError(err), { variant: 'error' });
+      
     }
   };
 
