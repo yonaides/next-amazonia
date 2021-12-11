@@ -52,9 +52,10 @@ export default function ProductScreen(props) {
           headers: { authorization: `Bearer ${userInfo.token}` },
         }
       );
+
       setLoading(false);
       enqueueSnackbar('Review submitted successfully', { variant: 'success' });
-      fetchReviews();
+      fetchReviews();      
     } catch (err) {
       setLoading(false);
       enqueueSnackbar(getError(err), { variant: 'error' });
@@ -67,6 +68,7 @@ export default function ProductScreen(props) {
       const { data } = await axios.get(
         `/api/products/${product._id}/reviews`
       );
+      
       setReviews(data);
     } catch (err) {
       enqueueSnackbar(getError(err), { variant: "error" });
@@ -258,6 +260,8 @@ export async function getServerSideProps(context) {
   await db.connect();
   const product = await Product.findOne({ slug }, '-reviews').lean();
   await db.disconnect();
+
+  console.log(product._id);
   return {
     props: {
       product: db.convertDocToObj(product),

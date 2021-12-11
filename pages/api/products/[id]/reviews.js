@@ -14,9 +14,9 @@ const handler = nextConnect({
     const product = await Product.findById(req.query.id);
     db.disconnect();
     if (product) {
-      res.send(product.reviews);
+      return res.send(product.reviews);
     } else {
-      res.status(404).send({ message: "Product not found" });
+      return res.status(404).send({ message: "Product not found" });
     }
   })
   .use(isAuth)
