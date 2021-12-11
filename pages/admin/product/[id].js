@@ -157,7 +157,7 @@ function ProductEdit({ params }) {
       router.push('/admin/products');
     } catch (err) {
       dispatch({ type: 'UPDATE_FAIL', payload: getError(err) });
-      //enqueueSnackbar(getError(err), { variant: 'error' });
+      
     }
   };
 
